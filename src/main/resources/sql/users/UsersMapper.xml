@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.smabro_app.infrastructure.mapper.UsersMapper">
+  <resultMap id="BaseResultMap" type="com.example.smabro_app.infrastructure.model.request.UserRequestQuery">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="matching_status" jdbcType="INTEGER" property="matchingStatus" />
+    <result column="rate" jdbcType="INTEGER" property="rate" />
+    <result column="main_character_id" jdbcType="INTEGER" property="mainCharacterId" />
+    <result column="sub1_character_id" jdbcType="INTEGER" property="sub1CharacterId" />
+    <result column="sub2_character_id" jdbcType="INTEGER" property="sub2CharacterId" />
+  </resultMap>
+
+  <insert id="insert" parameterType="com.example.smabro_app.infrastructure.model.request.UserRequestQuery">
+    insert into smabro_app_db.Users (name, password, matching_status, rate, main_character_id, sub1_character_id, sub2_character_id)
+    values (#{name}, #{password}, 0, #{rate}, #{mainCharacterId}, #{sub1CharacterId}, #{sub2CharacterId})
+  </insert>
+
+  <select id="findByName" parameterType="string" resultType="com.example.smabro_app.security.UserAccount">
+    select name, password
+    from smabro_app_db.Users
+    where name = #{name}
+  </select>
+
+  <select id="findById" parameterType="integer" resultType="com.example.smabro_app.infrastructure.model.response.UserResponseQuery">
+    select name, rate, main_character_id, sub1_character_id, sub2_character_id
+    from smabro_app_db.Users
+    where id = #{id}
+  </select>
+
+  <update id="update" parameterType="com.example.smabro_app.infrastructure.model.request.UserRequestQuery">
+    update smabro_app_db.Users set
+    name = #{name}, password = #{password}, main_character_id = #{mainCharacterId}, sub1_character_id = #{sub1CharacterId}, sub2_character_id = #{sub2CharacterId}
+    where id = #{id}
+  </update>
+
+  <update id="updateUserMatchingStatus" parameterType="integer">
+    update smabro_app_db.Users set
+    matching_status = #{status}
+    where id = #{id}
+  </update>
+
+  <select id="getRateRanking" resultType="com.example.smabro_app.presentation.dto.response.UserResponse">
+    select name, rate, main_character_id, sub1_character_id, sub2_character_id
+    from smabro_app_db.Users
+    order by rate desc
+  </select>
+
+  <select id="getRateList" parameterType="integer" resultType="java.lang.Integer">
+    select user_rate
+    from smabro_app_db.Matches
+    where user_id = #{userId}
+  </select>
+</mapper>

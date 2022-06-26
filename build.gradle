@@ -1,0 +1,77 @@
+plugins {
+    id 'org.springframework.boot' version '2.4.2'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+    id 'groovy'
+    // テストリトライに必要なプラグイン
+    id 'org.gradle.test-retry' version '1.1.6'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+// 必要ないので一旦コメントアウト
+//configurations {
+//    compileOnly {
+//        extendsFrom annotationProcessor
+//    }
+//}
+
+repositories {
+    mavenCentral()
+}
+
+// 一時的にテスト環境に負荷が掛かってテストケースが落ちる場合があるのでリトライをかける
+// CI環境で落ちると原因の切り分けができなくコストがかかるのでリトライ
+test {
+    retry {
+        failOnPassedAfterRetry = false
+        maxFailures = 10
+        maxRetries = 3
+    }
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.4'
+
+    // https://mvnrepository.com/artifact/io.springfox/springfox-boot-starter
+    implementation 'io.springfox:springfox-boot-starter:3.0.0'
+
+    // Spring Security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    testImplementation 'org.springframework.security:spring-security-test'
+
+    // lombok
+    implementation 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // javax.annotation @Nonnull使えるように
+    implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.1'
+
+    //    この下のコメントアウトされた依存関係ではspockは機能しなかった（なんでかを調べておく）
+    //    testImplementation 'org.spockframework:spock-core:2.0-groovy-3.0'
+    //    testImplementation 'org.codehaus.groovy:groovy-all:3.0.8'
+
+    //    spockのテストを実行するには以下の依存関係が必要
+    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-groovy-templates'
+    testImplementation 'org.codehaus.groovy:groovy-all:2.5.14'
+    testImplementation "org.spockframework:spock-core:1.3-groovy-2.5"
+
+    // プロダクトのクラスを実行するときに必要になる依存関係(DB: Mysql)
+    runtimeOnly 'mysql:mysql-connector-java'
+
+    // セッションストアをredisへ変更するため
+    //    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    //    implementation 'org.springframework.session:spring-session-data-redis'
+}
+
+//実行可能なjarファイルがbuild/libs/xxxx.jarに生成される
+//java -jar jarファイルで実行可能
+//EC2などにあげる際に必要なので残す
+bootJar {
+    launchScript()
+}

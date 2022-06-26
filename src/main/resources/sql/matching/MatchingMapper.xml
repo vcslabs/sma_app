@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.smabro_app.infrastructure.mapper.MatchingMapper">
+
+    <resultMap id="historyResultMap" type="com.example.smabro_app.infrastructure.model.response.HistoryResponseList">
+        <id property="id"  column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="userRate" column="user_rate"/>
+        <result property="opponentId" column="opponent_id"/>
+        <result property="opponentRate" column="opponent_rate"/>
+        <result property="statusCode" column="status_code"/>
+        <result property="usedCharacter1Id" column="used_character1_id"/>
+        <result property="usedCharacter2Id" column="used_character2_id"/>
+        <result property="usedCharacter3Id" column="used_character3_id"/>
+        <result property="opponentCharacter1Id" column="opponent_character1_id"/>
+        <result property="opponentCharacter2id" column="opponent_character2_id"/>
+        <result property="opponentCharacter3Id" column="opponent_character3_id"/>
+    </resultMap>
+
+    <select id="getOpponent" parameterType="integer" resultType="com.example.smabro_app.infrastructure.model.response.OpponentResponse">
+        select id, name, rate, main_character_id, sub1_character_id, sub2_character_id
+        from smabro_app_db.Users
+        where matching_status = 1
+        and id != #{id}
+    </select>
+
+    <select id="createMatching" parameterType="com.example.smabro_app.presentation.dto.request.MatchingRequest">
+       insert into smabro_app_db.Matches (user_id, user_rate, opponent_id, opponent_rate, status_code, used_character1_id, used_character2_id, used_character3_id, opponent_character1_id, opponent_character2_id, opponent_character3_id)
+       values (#{userId}, #{userRate}, #{opponentId}, #{opponentRate}, #{statusCode}, #{usedCharacter1Id}, #{usedCharacter2Id}, #{usedCharacter3Id}, #{opponentCharacter1Id}, #{opponentCharacter2id}, #{opponentCharacter3Id})
+    </select>
+
+    <select id="getHistory" parameterType="integer" resultMap="historyResultMap">
+        select *
+        from smabro_app_db.Matches
+        where user_id = #{userId}
+    </select>
+
+</mapper>
