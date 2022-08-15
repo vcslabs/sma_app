@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1/characters")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin(origins = "http://localhost:8081")
 public class CharacterController {
 
     private final CharacterFacade characterFacade;
