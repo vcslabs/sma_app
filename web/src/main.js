@@ -1,11 +1,13 @@
 import Vue from "vue";
+import ElementUI from "element-ui";
+import locale from "element-ui/lib/locale/lang/ja"
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
-import axios from "axios";
 
 Vue.config.productionTip = false;
-Vue.prototype.$axios = axios;
+
+Vue.use(ElementUI, { locale });
 
 new Vue({
   router,
