@@ -14,6 +14,12 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -63,6 +69,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/login") // ログアウト後に遷移させるパス(ここではログイン画面を設定)
                 .deleteCookies("JSESSIONID") // ログアウト後、Cookieに保存されているセッションIDを削除
                 .invalidateHttpSession(true); // true:ログアウト後、セッションを無効にする false:セッションを無効にしない
+
+        http
+                .cors().and();
+    }
+
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("http://localhost:8081"));
+        configuration.setAllowedMethods(Arrays.asList("GET","POST", "PATCH", "DELETE"));
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+
+        return source;
     }
 
     @Autowired

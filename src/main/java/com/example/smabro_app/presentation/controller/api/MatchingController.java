@@ -5,7 +5,6 @@ import com.example.smabro_app.presentation.dto.request.MatchingRequest;
 import com.example.smabro_app.presentation.dto.response.HistoryResponseList;
 import com.example.smabro_app.presentation.dto.response.OpponentResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/v1/matches")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:8081")
 public class MatchingController {
 
     private final MatchingFacade matchingFacade;
