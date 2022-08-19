@@ -26,7 +26,7 @@ services: # Docker-Composeでは、アプリケーションを動かすための
       spring.datasource.password: "root"
     ports: # 公開用のポート ホスト側:コンテナ側
       - "80:80" # springbootのポート
-      - "8080:8080" # コンテナ上でnpm run serveで開いたポート8080をlocalhost8080とつなげる
+      - "8082:8080" # コンテナ上でnpm run serveで開いたポート8080をlocalhost8080とつなげる
     depends_on: # web起動時にdbを起動する
       - db
     networks:
