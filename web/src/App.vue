@@ -1,5 +1,27 @@
 <template>
   <div class="app">
+    <el-container style="height: 500px; border: 1px solid #eee">
+      <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
+        <el-menu :default-openeds="['1']">
+          <el-submenu index="1">
+            <template slot="title"><i class="el-icon-menu"></i>メニュー</template>
+            <el-submenu index="1-1">
+              <template slot="title"><i class="el-icon-user-solid"></i>ユーザー管理</template>
+              <el-menu-item><i class="el-icon-search"></i>
+                <router-link to="/users">ユーザー検索</router-link>
+              </el-menu-item>
+            </el-submenu>
+          </el-submenu>
+        </el-menu>
+      </el-aside>
+
+      <el-container>
+        <el-main>
+          <router-view></router-view>
+        </el-main>
+      </el-container>
+    </el-container>
+
     <h1>登録結果↓</h1>
     <p>{{ create }}</p>
     <h1>ログイン結果↓</h1>
@@ -121,3 +143,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.el-main {
+  padding: 0 50px;
+}
+</style>
