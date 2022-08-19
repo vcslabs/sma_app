@@ -2,10 +2,15 @@
   <div class="app">
     <el-container style="height: 500px; border: 1px solid #eee">
       <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-        <el-menu :default-openeds="['1']">
+        <el-menu :default-openeds="['2']">
           <el-submenu index="1">
+            <template slot="title"><i class="el-icon-s-home"></i>
+              <router-link to="/home">ホーム</router-link>
+            </template>
+          </el-submenu>
+          <el-submenu index="2">
             <template slot="title"><i class="el-icon-menu"></i>メニュー</template>
-            <el-submenu index="1-1">
+            <el-submenu index="2-1">
               <template slot="title"><i class="el-icon-user-solid"></i>ユーザー管理</template>
               <el-menu-item><i class="el-icon-search"></i>
                 <router-link to="/users">ユーザー検索</router-link>
@@ -107,12 +112,6 @@ export default {
     getOpponent() {
       axios.get('http://localhost:80/v1/matches/1/?condition=300')
           .then(res => this.opponent = res.data)
-          .then(res => console.log(res))
-          .catch(err => console.log(err))
-    },
-    getUserRanking() {
-      axios.get('http://localhost:80/v1/users/ranking')
-          .then(res => this.userRanking = res.data)
           .then(res => console.log(res))
           .catch(err => console.log(err))
     },
