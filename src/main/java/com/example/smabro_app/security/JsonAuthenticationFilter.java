@@ -38,14 +38,11 @@ public class JsonAuthenticationFilter extends UsernamePasswordAuthenticationFilt
         this.setAuthenticationSuccessHandler((request,response,ex) -> {
             // トークンの作成
             String token = JWT.create()
-                    .withIssuer("com.volkruss.toaru") //発行者
+                    .withIssuer("smabroApp") //発行者
                     .withClaim("username", ex.getName()) //keyに対してvalueの設定。汎用的な様々な値を保持できる
                     .sign(Algorithm.HMAC256("secret")); // 利用アルゴリズムを指定してJWTを新規作成
             response.setHeader("X-AUTH-TOKEN", token); // tokeをX-AUTH-TOKENというKeyにセットする
             response.setStatus(200);
-
-//            RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
-//            redirectStrategy.sendRedirect(request, response, "http://localhost:8081/home");
         });
 
         // ログイン失敗時

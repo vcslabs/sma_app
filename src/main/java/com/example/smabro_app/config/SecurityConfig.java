@@ -2,6 +2,7 @@ package com.example.smabro_app.config;
 
 import com.example.smabro_app.security.AuthSuccessHandler;
 import com.example.smabro_app.security.JsonAuthenticationFilter;
+import com.example.smabro_app.security.LoginFilter;
 import com.example.smabro_app.security.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -63,10 +64,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // 独自フィルターの利用
         // デフォルトのAuthenticationManagerを利用する
         http
-                .addFilter(new JsonAuthenticationFilter(authenticationManager()));
+                .addFilter(new JsonAuthenticationFilter(authenticationManager()))
+                .addFilterAfter(new LoginFilter(), JsonAuthenticationFilter.class);
 
         http
-                .formLogin();
+                .formLogin()
+                .successHandler(new AuthSuccessHandler());
 
         http
                 .logout()
