@@ -6,7 +6,7 @@ import com.example.smabro_app.presentation.dto.request.UserRequest;
 import com.example.smabro_app.presentation.dto.response.UserRateResponseList;
 import com.example.smabro_app.presentation.dto.response.UserResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Nonnull;
@@ -18,7 +18,7 @@ public class UserFacade {
 
     private final UserService userService;
 
-    private final PasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     public int createUser(@Nonnull final UserRequest request) {
         request.setPassword(passwordEncoder.encode(request.getPassword()));

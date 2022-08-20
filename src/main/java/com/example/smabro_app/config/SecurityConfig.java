@@ -1,6 +1,7 @@
 package com.example.smabro_app.config;
 
 import com.example.smabro_app.security.AuthSuccessHandler;
+import com.example.smabro_app.security.JsonAuthenticationFilter;
 import com.example.smabro_app.security.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -56,17 +57,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .csrf().disable().authorizeRequests()
-                .antMatchers("/login", "/v1/users/").permitAll()
+                .antMatchers("/api/login", "/v1/users/").permitAll()
                 .anyRequest().authenticated();
 
+        // 独自フィルターの利用
+        // デフォルトのAuthenticationManagerを利用する
         http
-                .formLogin()
-                .successHandler(new AuthSuccessHandler());
+                .addFilter(new JsonAuthenticationFilter(authenticationManager()));
+
+        http
+                .formLogin();
 
         http
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout**"))
-                .logoutSuccessUrl("/login")
+                .logoutSuccessUrl("/api/login")
                 .deleteCookies("JSESSIONID")
                 .invalidateHttpSession(true);
 
@@ -80,6 +85,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of("http://localhost:8081"));
         configuration.setAllowedMethods(Arrays.asList("GET","POST", "PATCH", "DELETE"));
+        configuration.addAllowedHeader(CorsConfiguration.ALL);
+        configuration.addExposedHeader("X-AUTH-TOKEN");
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

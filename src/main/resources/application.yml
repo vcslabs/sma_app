@@ -14,3 +14,10 @@ spring:
 
 mybatis:
   mapper-locations: classpath*:/sql/*/*.xml
+
+# 開発を効率化するためにjsから読み取れるようにhttp-only: falseとする
+server.servlet:
+  session:
+    cookie:
+      http-only: false
+      secure: false
