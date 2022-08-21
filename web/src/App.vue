@@ -1,19 +1,22 @@
 <template>
   <div class="app">
-    <el-container style="height: 500px; border: 1px solid #eee">
+    <el-container style="height: 500px; border: 1px solid #eee" v-if="isAuthenticated">
       <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-        <el-menu :default-openeds="['2']">
-          <el-submenu index="1">
+        <el-menu :default-openeds="['1']">
+          <el-menu-item>
             <template slot="title"><i class="el-icon-s-home"></i>
               <router-link to="/home">ホーム</router-link>
             </template>
-          </el-submenu>
-          <el-submenu index="2">
+          </el-menu-item>
+          <el-submenu index="1">
             <template slot="title"><i class="el-icon-menu"></i>メニュー</template>
-            <el-submenu index="2-1">
+            <el-submenu index="1-1">
               <template slot="title"><i class="el-icon-user-solid"></i>ユーザー管理</template>
               <el-menu-item><i class="el-icon-search"></i>
-                <router-link to="/users">ユーザー検索</router-link>
+                <router-link to="/users/search">検索</router-link>
+              </el-menu-item>
+              <el-menu-item><i class="el-icon-trophy"></i>
+                <router-link to="/users/ranking">ランキング</router-link>
               </el-menu-item>
             </el-submenu>
           </el-submenu>
@@ -27,34 +30,18 @@
       </el-container>
     </el-container>
 
-    <h1>登録結果↓</h1>
-    <p>{{ create }}</p>
-    <h1>ログイン結果↓</h1>
-    <p>{{ login }}</p>
-    <h1>ログアウト結果↓</h1>
-    <p>{{ logout }}</p>
-    <h1>ユーザー編集API結果(1であれば成功)↓</h1>
-    <p>{{ updateUser }}</p>
-    <h1>対戦相手情報↓</h1>
-    <p>{{ opponent }}</p>
-    <h1>ユーザーランキング情報↓</h1>
-    <p>{{ userRanking }}</p>
-    <h1>レート情報↓</h1>
-    <p>{{ rate }}</p>
-    <h1>ユーザー情報↓</h1>
-    <p>{{ user }}</p>
-    <h1>マッチ履歴↓</h1>
-    <p>{{ matchHistory }}</p>
-    <h1>キャラクターランキング情報↓</h1>
-    <p>{{ characterRanking }}</p>
+    <LoginItem v-if="!isAuthenticated"></LoginItem>
   </div>
 </template>
 
 <script>
-
 import axios from 'axios'
+import LoginItem from "@/views/LoginItem";
 
 export default {
+  components: {
+    LoginItem
+  },
   data() {
     return{
       create: [],
@@ -67,6 +54,11 @@ export default {
       user: [],
       matchHistory: [],
       characterRanking: []
+    }
+  },
+  computed: {
+    isAuthenticated() {
+      return this.$store.getters.getToken !== null;
     }
   },
   created() {
@@ -146,5 +138,18 @@ export default {
 <style scoped>
 .el-main {
   padding: 0 50px;
+}
+
+.el-icon-s-home {
+  color: cornflowerblue;
+}
+
+.el-icon-search,.el-icon-trophy {
+  color: #303133;
+}
+
+a {
+  text-decoration: none;
+  color: #303133;
 }
 </style>

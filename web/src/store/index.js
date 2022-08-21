@@ -7,7 +7,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state() {
     return {
-      token: ""
+      token: null
     };
   },
   getters: {
@@ -20,7 +20,7 @@ export default new Vuex.Store({
       state.token = token;
     },
     removeToken(state) {
-      state.token = "";
+      state.token = null;
     }
   },
   actions: {

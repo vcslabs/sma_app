@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import UserItem from "@/views/UserItem";
+import UserRanking from "@/views/UserRanking";
+import UserSearch from "@/views/UserSearch";
 import HomeItem from "@/views/HomeItem";
 import LoginItem from "@/views/LoginItem";
 
@@ -17,8 +18,12 @@ export default new VueRouter({
       component: HomeItem,
     },
     {
-      path: '/users',
-      component: UserItem,
+      path: '/users/search',
+      component: UserSearch,
+    },
+    {
+      path: '/users/ranking',
+      component: UserRanking,
     },
     {
       path: '/login',
