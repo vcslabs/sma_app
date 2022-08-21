@@ -1,7 +1,40 @@
 <template>
   <div>
-    <h1>ユーザーランキング情報↓</h1>
-    <p>{{ userRanking }}</p>
+    <h2>ユーザーランキング</h2>
+    <el-table
+        :data="userRanking"
+        border
+        style="width: 100%">
+      <el-table-column
+          type="index"
+          label="順位"
+          width="50">
+      </el-table-column>
+      <el-table-column
+          prop="name"
+          label="名前"
+          width="180">
+      </el-table-column>
+      <el-table-column
+          prop="rate"
+          label="レート"
+          width="180">
+      </el-table-column>
+      <el-table-column
+          prop="mainCharacterId"
+          label="メインキャラID">
+      </el-table-column>
+      <el-table-column
+          prop="sub1CharacterId"
+          label="サブキャラ1ID"
+          width="180">
+      </el-table-column>
+      <el-table-column
+          prop="sub2CharacterId"
+          label="サブキャラ2ID"
+          width="180">
+      </el-table-column>
+    </el-table>
   </div>
 </template>
 
