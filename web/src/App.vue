@@ -43,7 +43,7 @@ export default {
     LoginItem
   },
   data() {
-    return{
+    return {
       create: [],
       login: [],
       logout: [],
